@@ -1,52 +1,54 @@
+"use client";
+
+import { useState } from "react";
+import { getWeather } from "../services/weatherService";
+import { getCache, setCache } from "../utils/cache";
+import SearchBar from "../components/SearchBar";
+import WeatherCard from "../components/WeatherCard";
+
 /**
- * Página principal de la app
- * Obtiene el clima desde Open-Meteo
+ * Página principal
  */
+export default function Home() {
+  const [weather, setWeather] = useState(null);
+  const [error, setError] = useState("");
 
-async function getWeather(city = "Mexico City") {
-  try {
-    // Coordenadas básicas (puedes expandir esto después)
-    const coords = {
-      "Mexico City": { lat: 19.43, lon: -99.13 },
-      "Madrid": { lat: 40.41, lon: -3.70 },
-      "New York": { lat: 40.71, lon: -74.00 }
-    };
+  const handleSearch = async (city) => {
+    setError("");
 
-    const { lat, lon } = coords[city];
-
-    const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
-      { cache: "no-store" } // evita cache en desarrollo
-    );
-
-    if (!res.ok) {
-      throw new Error("Error al obtener datos del clima");
+    //  CACHE
+    const cached = getCache(city);
+    if (cached) {
+      setWeather(cached);
+      return;
     }
 
-    const data = await res.json();
-    return data.current_weather;
+    const data = await getWeather(city);
 
-  } catch (error) {
-    console.error("API Error:", error);
-    return null;
-  }
-}
+    // ERROR UI
+    if (!data) {
+      setError("Error al cargar el clima");
+      setWeather(null);
+      return;
+    }
 
-export default async function Home() {
-  const weather = await getWeather();
+    setCache(city, data);
+    setWeather(data);
+  };
 
   return (
-    <main className="p-4">
-      <h1 className="text-xl font-bold">🌦️ Weather App</h1>
+    <main className="p-6">
+      <h1 className="text-3xl font-bold">🌤 Weather App</h1>
 
-      {!weather ? (
-        <p>Error al cargar el clima</p>
-      ) : (
-        <div>
-          <p>Temperatura: {weather.temperature}°C</p>
-          <p>Viento: {weather.windspeed} km/h</p>
-        </div>
+      <SearchBar onSearch={handleSearch} />
+
+      {error && <p className="text-red-500 mt-4">{error}</p>}
+
+      {!weather && !error && (
+        <p className="mt-4">Busca una ciudad</p>
       )}
+
+      {weather && <WeatherCard weather={weather} />}
     </main>
   );
 }

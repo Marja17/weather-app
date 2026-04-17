@@ -1,41 +1,69 @@
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Weather_icon.svg/2048px-Weather_icon.svg.png" alt="Logo" width="150" height="150" />
-</p>
+# Weather App (Next.js)
 
-<h1 align="center">Weather App</h1>
+Aplicación web desarrollada con Next.js que permite consultar el clima en tiempo real usando una API externa.
 
-<p align="center">
-<b>Aplicación del clima (Multi-ciudad)</b><br>
-<sub>
-Aplicación desarrollada en JavaScript (Node.js) que permite consultar el clima en tiempo real de una o varias ciudades utilizando la API de Open-Meteo.  
-El proyecto está enfocado en el manejo de APIs, asincronía con async/await, consumo de datos externos, manejo de errores y estructuración de código en módulos.
-</sub>
-</p>
+## Características
 
-## ➤ Sobre el proyecto
+- Búsqueda de ciudades
+- Información del clima en tiempo real
+- Cache para optimizar llamadas a la API
+- Manejo de errores
+- Tests básicos
+- Uso de variables de entorno
 
-Este proyecto tiene como objetivo mostrar cómo consumir una API meteorológica en tiempo real usando JavaScript.  
-Permite ingresar una o varias ciudades y obtener información como temperatura, humedad y velocidad del viento.
+## Tecnologías
 
-La aplicación está pensada para ejecutarse desde la terminal usando Node.js.
+- Next.js 14
+- React
+- Tailwind CSS
+- OpenWeather API
 
----
+## Instalación
 
-## ➤ Características
+npm install
+npm run dev
 
-- Consulta del clima en tiempo real
-- Soporte para múltiples ciudades en una sola ejecución
-- Uso de async/await para llamadas a API
-- Manejo de errores básicos (ciudades inválidas o fallos de red)
-- Salida organizada en consola
+Abrir en navegador:
+http://localhost:3000
 
----
+## Configuración
 
-## ➤ API utilizada
+Crear archivo .env.local:
 
-Se utiliza la API de Open-Meteo, la cual no requiere clave de autenticación.
+NEXT_PUBLIC_API_KEY=TU_API_KEY
 
-Ejemplo de endpoint:
+## Arquitectura
 
-```bash
-https://api.open-meteo.com/v1/forecast
+src/
+ ├── app/
+ ├── components/
+ ├── services/
+ ├── utils/
+ └── __tests__/
+
+## Testing
+
+npm run test
+
+## Manejo de errores
+
+- Validación de respuesta API (res.ok)
+- Retorno de null en fallos
+- Mensajes en UI
+
+## Seguridad
+
+- Uso de variables de entorno
+- No exposición de API keys
+- Validación de inputs
+
+## Mejoras futuras
+
+- Dark mode
+- Geolocalización
+- Pronóstico extendido
+- Diseño responsive avanzado
+
+## Autor
+
+Marja17

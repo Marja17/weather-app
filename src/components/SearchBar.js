@@ -1,39 +1,34 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+
 /**
- * Componente Search
- * ------------------
- * Campo de búsqueda para ingresar la ciudad
- * y botón para ejecutar la búsqueda.
+ * Componente para buscar ciudades
  */
+export default function SearchBar({ onSearch }) {
+  const [city, setCity] = useState("");
 
-import Image from "next/image";
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-export default function Search({ onInputChange, onSearchClick }) {
-    return (
-        <div className="w-full flex gap-2 justify-center items-center">
+    if (!city.trim()) return;
 
-            {/* Input para escribir la ciudad */}
-            <input
-                type="search"
-                placeholder="Enter your city"
-                onChange={onInputChange}
-                className="px-6 py-2 w-[80%] rounded-full text-[#333] font-medium border-none outline-none xs:w-full sm:text-lg sm:py-4"
-            />
+    onSearch(city);
+    setCity("");
+  };
 
-            {/* Botón de búsqueda */}
-            <button
-                className="bg-white rounded-full p-2 outline-none border-none sm:p-4"
-                onClick={onSearchClick}
-            >
-                <Image
-                    src="/search.svg"
-                    alt="search"
-                    height={50}
-                    width={50}
-                    className="max-h-5 max-w-5"
-                />
-            </button>
+  return (
+    <form onSubmit={handleSubmit} className="flex gap-2 mt-4">
+      <input
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        placeholder="Buscar ciudad..."
+        className="border p-2 rounded w-full"
+      />
 
-        </div>
-    );
+      <button className="bg-blue-500 text-white px-4 rounded">
+        Buscar
+      </button>
+    </form>
+  );
 }

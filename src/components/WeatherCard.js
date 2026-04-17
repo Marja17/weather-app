@@ -1,33 +1,14 @@
 /**
- * Componente Card
- * ------------------
- * Tarjeta reutilizable para mostrar
- * información del clima (temperatura,
- * humedad o velocidad del viento).
+ * Componente visual del clima
  */
+export default function WeatherCard({ weather }) {
+  return (
+    <div className="bg-white shadow-lg p-4 rounded mt-6">
+      <h2 className="text-xl font-bold">{weather.name}</h2>
 
-import Image from "next/image";
-
-export default function Card({ value, text, src }) {
-    return (
-        <div className="flex items-center gap-3">
-
-            {/* Icono */}
-            {src && (
-                <Image
-                    src={src}
-                    alt={text}
-                    width={40}
-                    height={40}
-                />
-            )}
-
-            {/* Texto */}
-            <div>
-                <p className="text-xl font-semibold">{value}</p>
-                <p className="text-sm">{text}</p>
-            </div>
-
-        </div>
-    );
+      <p>🌡 Temperatura: {weather.main.temp}°C</p>
+      <p>☁ Estado: {weather.weather[0].description}</p>
+      <p>💨 Viento: {weather.wind.speed} m/s</p>
+    </div>
+  );
 }
